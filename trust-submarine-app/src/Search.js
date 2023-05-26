@@ -22,6 +22,7 @@ function SearchForm() {
 function SearchBar() {
     return <div id="searchbar">
         <div id="searchinput-container">
+            <label for="searchinput" class="invisible">Paste URL here</label>
             <input type="text" name="query" id="searchinput" placeholder="Paste URL here"/>
         </div>
         <div id="searchicon-container">

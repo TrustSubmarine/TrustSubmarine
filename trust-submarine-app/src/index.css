@@ -1,8 +1,9 @@
 body {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+  font-family: 'Tangerine', 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
+
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -46,6 +47,17 @@ code {
   border-radius: 50px;
 }
 
+.invisible {
+	border: 0;
+	clip: rect(0 0 0 0);
+	height: 1px;
+	overflow: hidden;
+	padding: 0;
+	position: absolute;
+	white-space: nowrap;
+	width: 1px;
+}
+
 #searchbar {
   box-sizing: border-box;
 
@@ -64,7 +76,26 @@ code {
 }
 
 #searchinput-container {
+  box-sizing: border-box;
 
+  /* Auto layout */
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 0px 40px;
+  gap: 10px;
+
+  width: 890px;
+  height: 60px;
+
+  border-radius: 40px;
+
+  /* Inside auto layout */
+
+  flex: none;
+  order: 0;
+  flex-grow: 1;
 }
 
 #searchinput {
@@ -75,7 +106,21 @@ code {
   margin: 0;
   padding: 0;
   border: transparent;
+  font-family: 'Inter', sans-serif;
   font-size: 28px;
+  font-weight: 300;
+  color:rgba(255, 255, 255, 0.6);
+}
+
+#searchinput:focus {
+  border-color: transparent;
+  outline: none;
+  caret-color: white;
+  color: rgba(255, 255, 255);
+}
+
+#searchinput::placeholder {
+  color: rgba(255, 255, 255, 0.4);
 }
 
 #searchicon-container {
