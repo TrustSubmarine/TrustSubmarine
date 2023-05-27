@@ -1,5 +1,6 @@
-import './Search.css';
 import {useState} from 'react';
+import Header from '../Components/Header.js';
+import './SearchPage.css';
 
 const SearchType = {
     KEYWORDS: 'KW',
@@ -10,13 +11,6 @@ function SearchPage() {
     return <div class='verticalflow-justify-flex flexfill'>
         <Header/>
         <Search/>
-    </div>
-}
-
-function Header() {
-    return <div class='horizontalflow-small-flex align-start align-items-end'>
-        <a href="/about">About</a>
-        <a href='/recents'>Recents</a>
     </div>
 }
 

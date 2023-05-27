@@ -1,14 +1,29 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import App from './App';
-import SearchPage from './SearchPage';
 import reportWebVitals from './reportWebVitals';
+import AboutPage from './AboutPage/AboutPage';
+import {
+  createBrowserRouter,
+  RouterProvider,
+} from "react-router-dom";
+import SearchPage from './SearchPage/SearchPage';
+
+const router = createBrowserRouter([
+  {
+    path: "/",
+    element: <SearchPage/>,
+  },
+  {
+    path: "/about",
+    element: <AboutPage/>
+  }
+]);
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <SearchPage/>
+    <RouterProvider router={router} />
   </React.StrictMode>
 );
 
