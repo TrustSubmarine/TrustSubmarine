@@ -6,8 +6,22 @@ const SearchType = {
     URL: 'URL'
 };
 
+function SearchPage() {
+    return <div class='verticalflow-justify-flex flexfill'>
+        <Header/>
+        <Search/>
+    </div>
+}
+
+function Header() {
+    return <div class='horizontalflow-small-flex align-start align-items-end'>
+        <a href="/about">About</a>
+        <a href='/recents'>Recents</a>
+    </div>
+}
+
 function Search() {
-    return <div class='verticalflow-medium-flex fullxy'>
+    return <div id='search-component' class='verticalflow-medium-flex align-center auto-margin'>
         <LargeLogo/>
         <SearchForm/>
     </div>
@@ -93,4 +107,4 @@ function SearchToggle(props) {
     </div>
 }
 
-export default Search;
+export default SearchPage;
