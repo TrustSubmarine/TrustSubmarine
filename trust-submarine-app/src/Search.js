@@ -14,7 +14,7 @@ function Search() {
 }
 
 function LargeLogo() {
-    return <img src='./TrustSubmarine Full Icon.png' class='medium-image'/>
+    return <img src='./TrustSubmarine Full Icon.png' class='medium-image' alt='TrustSubmarine Large Logo'/>
 }
 
 function SearchForm() {
@@ -37,23 +37,23 @@ function SearchBar(props) {
 
     const redirectionHandler = (event) => {
         event.preventDefault();
-        if (searchText == "") return;
-        redirectToSubpage((props.searchType == SearchType.URL? "product?url=":"results?query=") + encodeURIComponent(searchText));
+        if (searchText === "") return;
+        redirectToSubpage((props.searchType === SearchType.URL? "product?url=":"results?query=") + encodeURIComponent(searchText));
     }
 
     return <form onSubmit={redirectionHandler}>
         <div id="searchbar">
             <div id="searchinput-container">
                 <label for="searchinput" class="invisible">Paste URL here</label>
-                <input type="text" name="query" id="searchinput" 
+                <input type="text" name="query" id="searchinput" autoComplete='off'
                     value = {searchText}
-                    placeholder={props.searchType==SearchType.KEYWORDS? "Write keywords here":"Paste URL here"}
+                    placeholder={props.searchType === SearchType.KEYWORDS? "Write keywords here":"Paste URL here"}
                     onChange={(event) => setSearchText(event.target.value)}/>
 
             </div>
             <button id="searchbutton" onClick={redirectionHandler}>
                 <div id="searchicon-container">
-                    <img src="./FlatIcons Magnifying Glass C2E3FF.png" id="searchicon-magglass"/>
+                    <img src="./FlatIcons Magnifying Glass C2E3FF.png" id="searchicon-magglass" alt='Keyword Search Icon'/>
                 </div>
             </button>
         </div>
@@ -79,13 +79,13 @@ function SearchToggle(props) {
 
     return <div id='searchtype-container'>
         <button id='searchtype-left' 
-            class={'searchtype-button'+(searchType==SearchType.KEYWORDS? ' searchtype-button-active':' searchtype-button-passive')}
+            class={'searchtype-button'+(searchType === SearchType.KEYWORDS? ' searchtype-button-active':' searchtype-button-passive')}
             onClick={(ignored) => setSearchType(SearchType.KEYWORDS)}
         >
             Keywords
         </button>
         <button id='searchtype-right' 
-            class={'searchtype-button'+(searchType==SearchType.URL? ' searchtype-button-active':' searchtype-button-passive')}
+            class={'searchtype-button'+(searchType === SearchType.URL? ' searchtype-button-active':' searchtype-button-passive')}
             onClick={(ignored) => setSearchType(SearchType.URL)}
         >
             URL
