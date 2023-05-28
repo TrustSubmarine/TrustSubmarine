@@ -30,8 +30,10 @@ function ProductPage() {
         } catch (err) {
             console.log(err);
         }
-    });
+    }, [productURL]);
 
+    console.log("query:");
+    console.log(productURL);
     console.log("data:");
     console.log(productInfo);
 
