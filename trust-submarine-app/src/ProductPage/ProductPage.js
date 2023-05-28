@@ -26,7 +26,7 @@ function ProductPage() {
 
     useEffect(() => {
         try {
-            axios.get(`https://durable-pulsar-388017.as.r.appspot.com/amazon/${productURL}`).then((res) => setProductInfo(res.data)).catch((error) => console.log(error));
+            axios.get(`https://durable-pulsar-388017.as.r.appspot.com/amazon/${productURL}`).then((res) => setProductInfo(res.data[0])).catch((error) => console.log(error));
         } catch (err) {
             console.log(err);
         }
@@ -40,8 +40,8 @@ function ProductPage() {
     return <div class='verticalflow-justify-flex flexfill'>
         <Header/>
         <div id='about-container' class='verticalflow-medium-flex align-center auto-margin'>
-            <p id='product-title'>This is a product</p>
-            <p id='score'>4 submarines out of 5 sandwiches</p>
+            <p id='product-title'>{productInfo? productInfo.prod_name:""}</p>
+            <p id='score'>{productInfo? productInfo.score:""} out of 5</p>
         </div>
     </div>
 }
