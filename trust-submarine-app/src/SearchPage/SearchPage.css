@@ -1,0 +1,164 @@
+.medium-image {
+  box-sizing: border-box;
+
+  width: 602px;
+  height: 333px;
+
+  background: #263347;
+  border-radius: 50px;
+}
+
+.searchtype-button { 
+
+  width: 180px;
+  height: 40px;
+  border-radius: 10px;
+  border-width: 0;
+
+  flex: none;
+  order: 1;
+  flex-grow: 0;
+}
+
+.searchtype-button-passive {
+  color: #A5A5A5;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+
+  filter: drop-shadow(2px 2px 2px rgba(0, 0, 0, 0.35));
+  background: #282828;
+}
+
+.searchtype-button-active { 
+  color: #C2E3FF;
+  font-family: 'Inter';
+  font-weight: 700;
+  font-size: 20px;
+
+  box-shadow: inset 2px 2px 2px rgba(0, 0, 0, 0.35);
+  background: #2A7AC5;
+}
+
+#search-component {
+    height: calc(100% - 150px);
+    max-height: 90%;
+    min-height: min-content;
+}
+  
+#searchbar {
+    box-sizing: border-box;
+
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 5px;
+
+    width: 950px;
+    height: 60px;
+
+    background: #1D1D1D;
+    border: 1px solid rgba(0, 139, 217, 0.5);
+    border-radius: 40px;
+}
+
+#searchinput-container {
+    box-sizing: border-box;
+
+    /* Auto layout */
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 0px 40px;
+    gap: 10px;
+
+    width: 890px;
+    height: 60px;
+
+    border-radius: 40px;
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 0;
+    flex-grow: 1;
+}
+
+#searchinput {
+    flex: none;
+    order: 0;
+    flex-grow: 1;
+    background-color: transparent;
+    margin: 0;
+    padding: 0;
+    border: transparent;
+    font-family: 'Inter', sans-serif;
+    font-size: 28px;
+    font-weight: 300;
+    color:rgba(255, 255, 255, 0.6);
+}
+
+#searchinput:focus {
+    border-color: transparent;
+    outline: none;
+    caret-color: white;
+    color: rgba(255, 255, 255);
+}
+
+#searchinput::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
+#searchbutton {
+    width: 50px;
+    height: 50px;
+
+    border: none;
+    padding: 0;
+
+
+    background: #2A7AC5;
+    border-radius: 40px;
+}
+
+#searchicon-container {
+    box-sizing: border-box;
+
+    /* Auto layout */
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    padding: 10px;
+    gap: 20px;
+
+    width: 50px;
+    height: 50px;
+
+    background: #2A7AC5;
+    border-radius: 40px;
+
+    /* Inside auto layout */
+
+    flex: none;
+    order: 1;
+    flex-grow: 0;
+}
+
+#searchicon-magglass {
+    width: 30px;
+    height: 30px;
+}
+
+#searchtype-left {
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+}
+
+#searchtype-right {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+}
