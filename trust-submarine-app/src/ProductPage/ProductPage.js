@@ -1,7 +1,7 @@
 import Header from "../Components/Header";
 import axios from 'axios';
 import { useSearchParams } from 'react-router-dom';
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 
 import './ProductPage.css';
 
@@ -22,14 +22,18 @@ export async function RequestProduct({params}) {
 function ProductPage() {
     const [ search ] = useSearchParams();
     const productURL = search.get('url');
+    const [ productInfo, setProductInfo ] = useState(null);
 
     useEffect(() => {
         try {
-            axios.get(`/amazon/${productURL}`).then((res) => console.log(res)).catch((error) => console.log(error));
+            axios.get(`https://durable-pulsar-388017.as.r.appspot.com/amazon/${productURL}`).then((res) => setProductInfo(res.data)).catch((error) => console.log(error));
         } catch (err) {
             console.log(err);
         }
     });
+
+    console.log("data:");
+    console.log(productInfo);
 
     return <div class='verticalflow-justify-flex flexfill'>
         <Header/>
