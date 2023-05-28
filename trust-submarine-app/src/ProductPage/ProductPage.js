@@ -40,7 +40,7 @@ function ProductPage() {
     return <div class='verticalflow-justify-flex flexfill'>
         <Header/>
         <div id='about-container' class='verticalflow-medium-flex align-center auto-margin'>
-            <p id='product-title'>{productInfo? productInfo.prod_name:""}</p>
+            <p id='product-title'>{productInfo? productInfo.prod_name:""} <a href={productInfo? productInfo.link:""}>amazon</a></p>
             <p id='score'>{productInfo? productInfo.score:""} out of 5</p>
         </div>
     </div>
