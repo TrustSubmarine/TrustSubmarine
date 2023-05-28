@@ -1,13 +1,16 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
 import reportWebVitals from './reportWebVitals';
-import AboutPage from './AboutPage/AboutPage';
+
 import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+
+import './index.css';
+import AboutPage from './AboutPage/AboutPage';
 import SearchPage from './SearchPage/SearchPage';
+import ProductPage, { RequestProduct } from './ProductPage/ProductPage';
 
 const router = createBrowserRouter([
   {
@@ -17,6 +20,11 @@ const router = createBrowserRouter([
   {
     path: "/about",
     element: <AboutPage/>
+  },
+  {
+    path: "/product",
+    element: <ProductPage/>,
+    loader: RequestProduct
   }
 ]);
 

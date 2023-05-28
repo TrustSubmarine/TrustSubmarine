@@ -1,6 +1,7 @@
 import {useState} from 'react';
 import Header from '../Components/Header.js';
 import './SearchPage.css';
+import {useNavigate} from 'react-router-dom';
 
 const SearchType = {
     KEYWORDS: 'KW',
@@ -42,11 +43,12 @@ function SearchForm() {
  */
 function SearchBar(props) {
     var [searchText, setSearchText] = useState("");
+    const nav = useNavigate();
 
     const redirectionHandler = (event) => {
         event.preventDefault();
         if (searchText === "") return;
-        redirectToSubpage((props.searchType === SearchType.URL? "product?url=":"results?query=") + encodeURIComponent(searchText));
+        nav((props.searchType === SearchType.URL? "product?url=":"results?query=") + encodeURIComponent(searchText));
     }
 
     return <form onSubmit={redirectionHandler}>
@@ -66,15 +68,6 @@ function SearchBar(props) {
             </button>
         </div>
     </form>
-}
-
-/**
- * Redirects to the relative address "domain/string". 
- * Triggers a full-page refresh.
- * @param string the subaddress, without the leading "/"
- */
-function redirectToSubpage(string) {
-    window.location.href = '/' + string;
 }
 
 /**

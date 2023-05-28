@@ -2,6 +2,7 @@ import Header from '../Components/Header.js';
 import './AboutPage.css';
 
 function AboutPage() {
+
     return <div class='verticalflow-justify-flex flexfill'>
         <Header/>
         <div id='about-container' class='verticalflow-medium-flex align-center auto-margin'>
