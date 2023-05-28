@@ -1,6 +1,6 @@
 import Header from "../Components/Header";
 import axios from 'axios';
-import { useLoaderData, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { useEffect } from "react";
 
 import './ProductPage.css';
@@ -20,7 +20,6 @@ export async function RequestProduct({params}) {
 }
 
 function ProductPage() {
-    //const productInfo = useLoaderData();
     const [ search ] = useSearchParams();
     const productURL = search.get('url');
 
@@ -30,7 +29,7 @@ function ProductPage() {
         } catch (err) {
             console.log(err);
         }
-    }, null);
+    });
 
     return <div class='verticalflow-justify-flex flexfill'>
         <Header/>
