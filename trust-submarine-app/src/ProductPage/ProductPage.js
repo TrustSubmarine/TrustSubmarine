@@ -5,8 +5,11 @@ import { useEffect } from "react";
 
 import './ProductPage.css';
 
-export async function RequestProduct({params}) {
+export async function RequestProduct({request, params}) {
+    console.log("ping");
     console.log(params.url);
+    console.log(request);
+    console.log(params);
     //const url = new URL(params.url);
     //const q = url.searchParams.get("q");
     try {
@@ -16,7 +19,6 @@ export async function RequestProduct({params}) {
         console.log(error);
         return null;
     }
-    
 }
 
 function ProductPage() {
@@ -34,7 +36,7 @@ function ProductPage() {
 
     return <div class='verticalflow-justify-flex flexfill'>
         <Header/>
-        <div id='about-container' class='verticalflow-medium-flex align-center auto-margin'>
+        <div id='about-container' className='verticalflow-medium-flex align-center auto-margin'>
             <p id='product-title'>This is a product</p>
             <p id='score'>4 submarines out of 5 sandwiches</p>
         </div>

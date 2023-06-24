@@ -24,7 +24,14 @@ const router = createBrowserRouter([
   {
     path: "/product",
     element: <ProductPage/>,
-    loader: RequestProduct
+    loader: RequestProduct,
+    children: [
+      {
+        element: <ProductPage />,
+        path: "?url",
+        loader: RequestProduct
+      },
+    ],
   }
 ]);
 
