@@ -1,9 +1,18 @@
 #product-title {
-    font-size: 40px;
+    font-size: 48px;
     font-weight:300;
 }
 
 #score {
     font-size: 48px;
     font-weight: 400;
+}
+
+#product-description {
+    white-space: pre-wrap;
+}
+
+.scoredisplay-text {
+    font-size: 48px;
+    font-weight: 600;
 }

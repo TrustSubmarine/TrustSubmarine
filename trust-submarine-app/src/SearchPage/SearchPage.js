@@ -9,27 +9,27 @@ const SearchType = {
 };
 
 function SearchPage() {
-    return <div class='verticalflow-justify-flex flexfill'>
+    return <div className='verticalflow-justify-flex flexfill'>
         <Header/>
         <Search/>
     </div>
 }
 
 function Search() {
-    return <div id='search-component' class='verticalflow-medium-flex align-center auto-margin'>
+    return <div id='search-component' className='verticalflow-medium-flex align-center auto-margin'>
         <LargeLogo/>
         <SearchForm/>
     </div>
 }
 
 function LargeLogo() {
-    return <img src='./TrustSubmarine Full Icon.png' class='medium-image' alt='TrustSubmarine Large Logo'/>
+    return <img src='./TrustSubmarine Full Icon.png' className='medium-image' alt='TrustSubmarine Large Logo'/>
 }
 
 function SearchForm() {
     var [searchType, setSearchType] = useState(SearchType.URL);
 
-    return <div class='verticalflow-small-flex'>
+    return <div className='verticalflow-small-flex'>
         <SearchBar searchType={searchType}/>
         <SearchToggle searchState={[searchType, setSearchType]}/>
     </div>
@@ -54,7 +54,7 @@ function SearchBar(props) {
     return <form onSubmit={redirectionHandler}>
         <div id="searchbar">
             <div id="searchinput-container">
-                <label for="searchinput" class="invisible">Paste URL here</label>
+                <label htmlFor="searchinput" className="invisible">Paste URL here</label>
                 <input type="text" name="query" id="searchinput" autoComplete='off'
                     value = {searchText}
                     placeholder={props.searchType === SearchType.KEYWORDS? "Write keywords here":"Paste URL here"}
@@ -80,13 +80,13 @@ function SearchToggle(props) {
 
     return <div id='searchtype-container'>
         <button id='searchtype-left' 
-            class={'searchtype-button'+(searchType === SearchType.KEYWORDS? ' searchtype-button-active':' searchtype-button-passive')}
+            className={'searchtype-button'+(searchType === SearchType.KEYWORDS? ' searchtype-button-active':' searchtype-button-passive')}
             onClick={(ignored) => setSearchType(SearchType.KEYWORDS)}
         >
             Keywords
         </button>
         <button id='searchtype-right' 
-            class={'searchtype-button'+(searchType === SearchType.URL? ' searchtype-button-active':' searchtype-button-passive')}
+            className={'searchtype-button'+(searchType === SearchType.URL? ' searchtype-button-active':' searchtype-button-passive')}
             onClick={(ignored) => setSearchType(SearchType.URL)}
         >
             URL

@@ -84,6 +84,11 @@ code {
   font-weight: 300;
 }
 
+.image-small {
+  width: 40%;
+  height: auto;
+}
+
 a {
   text-decoration: none;
   color:rgba(255, 255, 255, 0.6)
