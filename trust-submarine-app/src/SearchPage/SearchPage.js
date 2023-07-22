@@ -35,6 +35,14 @@ function SearchForm() {
     </div>
 }
 
+function processProductURL(url) {
+    const obj = new URL(url);
+    let host = obj.host
+    if (host.startsWith("www.")) host = host.substring(4);
+    host = host.replace(/\./g, '/');
+    const path = obj.pathname;
+    return `${host}${path}`.replace(/[&?/]?[\w-+%]+=[\w-+%]+/g, '');
+}
 
 /**
  * React functional component that renders the search bar, including the search button.
@@ -48,7 +56,7 @@ function SearchBar(props) {
     const redirectionHandler = (event) => {
         event.preventDefault();
         if (searchText === "") return;
-        nav((props.searchType === SearchType.URL? "product?url=":"results?query=") + encodeURIComponent(searchText));
+        nav((props.searchType === SearchType.URL? "product?url=":"results?query=") + processProductURL(searchText));
     }
 
     return <form onSubmit={redirectionHandler}>
