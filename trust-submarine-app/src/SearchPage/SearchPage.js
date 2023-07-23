@@ -39,9 +39,13 @@ function processProductURL(url) {
     const obj = new URL(url);
     let host = obj.host
     if (host.startsWith("www.")) host = host.substring(4);
-    host = host.replace(/\./g, '/');
-    const path = obj.pathname;
-    return `${host}${path}`.replace(/[&?/]?[\w-+%]+=[\w-+%]+/g, '');
+    let company = "unknown"
+    if (host.match(/amazon\.[a-z]{2}$/g)) {
+        company = "amazon";
+    }
+    //host = host.replace(/\./g, '/');
+    const path = encodeURIComponent(obj.pathname);
+    return `${company}/${host}${path}`.replace(/[&?/]?[\w-+%]+=[\w-+%]+/g, '');
 }
 
 /**
@@ -49,14 +53,14 @@ function processProductURL(url) {
  * Also handles form submission behaviour.
  * @param props accepts searchType with type SearchType
  */
-function SearchBar(props) {
+function SearchBar({searchType}) {
     var [searchText, setSearchText] = useState("");
     const nav = useNavigate();
 
     const redirectionHandler = (event) => {
         event.preventDefault();
         if (searchText === "") return;
-        nav((props.searchType === SearchType.URL? "product?url=":"results?query=") + processProductURL(searchText));
+        nav((searchType === SearchType.URL? "product?url=":"results?query=") + processProductURL(searchText));
     }
 
     return <form onSubmit={redirectionHandler}>
