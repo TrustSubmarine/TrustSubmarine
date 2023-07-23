@@ -44,8 +44,8 @@ function processProductURL(url) {
         company = "amazon";
     }
     //host = host.replace(/\./g, '/');
-    const path = encodeURIComponent(obj.pathname);
-    return `${company}/${host}${path}`.replace(/[&?/]?[\w-+%]+=[\w-+%]+/g, '');
+    const path = encodeURIComponent(obj.pathname.replace(/[&?/]?[\w-+%]+=[\w-+%]+/g, ''));
+    return `${company}/${host}${path}`;
 }
 
 /**
@@ -69,11 +69,11 @@ function SearchBar({searchType}) {
                 <label htmlFor="searchinput" className="invisible">Paste URL here</label>
                 <input type="text" name="query" id="searchinput" autoComplete='off'
                     value = {searchText}
-                    placeholder={props.searchType === SearchType.KEYWORDS? "Write keywords here":"Paste URL here"}
+                    placeholder={searchType === SearchType.KEYWORDS? "Write keywords here":"Paste URL here"}
                     onChange={(event) => setSearchText(event.target.value)}/>
 
             </div>
-            <button id="searchbutton" onClick={redirectionHandler}>
+            <button id="searchbutton" aria-label='search-icon' onClick={redirectionHandler}>
                 <div id="searchicon-container">
                     <img src="./FlatIcons Magnifying Glass C2E3FF.png" id="searchicon-magglass" alt='Keyword Search Icon'/>
                 </div>
@@ -87,8 +87,8 @@ function SearchBar({searchType}) {
  * Triggers state change on user interaction.
  * @param props accepts searchState with [searchType, setSearchType]
  */
-function SearchToggle(props) {
-    var [searchType, setSearchType] = props.searchState;
+function SearchToggle({searchState}) {
+    var [searchType, setSearchType] = searchState;
 
     return <div id='searchtype-container'>
         <button id='searchtype-left' 
