@@ -1,7 +1,7 @@
 import Header from "../Components/Header";
 import axios from 'axios';
-import { useLoaderData, useSearchParams } from 'react-router-dom';
-import { useEffect } from "react";
+import { useSearchParams } from 'react-router-dom';
+import { useState, useEffect } from "react";
 
 import './ProductPage.css';
 
@@ -20,23 +20,28 @@ export async function RequestProduct({params}) {
 }
 
 function ProductPage() {
-    //const productInfo = useLoaderData();
     const [ search ] = useSearchParams();
     const productURL = search.get('url');
+    const [ productInfo, setProductInfo ] = useState(null);
 
     useEffect(() => {
         try {
-            axios.get(`/amazon/${productURL}`).then((res) => console.log(res)).catch((error) => console.log(error));
+            axios.get(`https://durable-pulsar-388017.as.r.appspot.com/amazon/${productURL}`).then((res) => setProductInfo(res.data[0])).catch((error) => console.log(error));
         } catch (err) {
             console.log(err);
         }
-    }, null);
+    }, [productURL]);
+
+    console.log("query:");
+    console.log(productURL);
+    console.log("data:");
+    console.log(productInfo);
 
     return <div class='verticalflow-justify-flex flexfill'>
         <Header/>
         <div id='about-container' class='verticalflow-medium-flex align-center auto-margin'>
-            <p id='product-title'>This is a product</p>
-            <p id='score'>4 submarines out of 5 sandwiches</p>
+            <p id='product-title'>{productInfo? productInfo.prod_name:""} <a id='link' href={productInfo? productInfo.link:""}>(amazon)</a></p>
+            <p id='score'>{productInfo? productInfo.score:""} out of 5</p>
         </div>
     </div>
 }
