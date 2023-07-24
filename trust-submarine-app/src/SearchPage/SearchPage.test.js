@@ -31,9 +31,6 @@ describe('SearchPage', () => {
   })
 });
 
-// I DO NOT KNOW ENOUGH ABOUT REACT ROUTER AND JEST TO FULLY UNDERSTAND HOW TO MAKE THIS WORK
-// UPDATE: I UNDERSTAND A TINY AMOUNT NOW, BUT IT STILL DOESN'T WORK
-// UPDATE: I UNDERSTAND, AND IT WORKS
 describe ('SearchPage: searchbar', () => {
   it('returns the right URL', async () => {
     renderSearchPage();
@@ -44,7 +41,7 @@ describe ('SearchPage: searchbar', () => {
     fireEvent.click(searchbutton);
 
     await waitFor(() => expect(mockNav).toHaveBeenCalled());
-    expect(mockNav).toHaveBeenCalledWith("product?url=amazon/amazon.in%2FESR-Paper-Feel-Compatible-Generation-Application%2Fdp%2FB0B87PN2TZ");
+    expect(mockNav).toHaveBeenCalledWith("product?url=amazon.in%2FESR-Paper-Feel-Compatible-Generation-Application%2Fdp%2FB0B87PN2TZ");
   })
 });
 

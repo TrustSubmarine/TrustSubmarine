@@ -1,6 +1,11 @@
+#about-container {
+    max-width: calc(max(100%, 800px));
+}
+
 #product-title {
-    font-size: 48px;
-    font-weight:300;
+    font-size: 30px;
+    font-weight: 300;
+    max-width: 80%;
 }
 
 #score {
@@ -8,9 +13,27 @@
     font-weight: 400;
 }
 
+#product-image-container {
+    max-height: 300px;
+    height: 100%;
+    width: 40%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#product-image {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+}
+
 #product-description {
     white-space: pre-wrap;
     max-height: 300px;
+    font-size: 17px;
     width: 40%;
     overflow-y: auto;
     /*scrollbar-width: thin;

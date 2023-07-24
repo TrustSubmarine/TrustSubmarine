@@ -5,15 +5,15 @@ import { useEffect, useState } from "react";
 
 import './ProductPage.css';
 
-const backendDomain = 'https://djrjzastptdwz2ddabucffyeka0mowff.lambda-url.eu-north-1.on.aws/';
+const backendDomain = 'https://durable-pulsar-388017.as.r.appspot.com/';
 
 export async function RequestProduct({request, params}) {
     try {
         const thisURL = new URL(request.url);
         const productURL = thisURL.searchParams.get("url");
-        console.log(backendDomain + productURL); //todo remove and replace with proper GET function
-        //var res = await axios.get();
-        //return res.data;
+        console.log(getBackendURL(productURL));
+        //var res = await axios.get(getBackendURL(productURL));
+        //return processJSONReply(res.data);
         return processJSONReply(null);
     } catch (error) {
         console.log(error); //todo check if the error is product not found specifically
@@ -21,20 +21,53 @@ export async function RequestProduct({request, params}) {
     }
 }
 
+function getBackendURL(url) {
+    const obj = new URL(url);
+    let company = "unknown"
+    if (obj.host.match(/amazon\.[a-z]{2}$/g)) {
+        company = "amazon";
+    }
+    let productURL = `${obj.origin}${obj.pathname}`.replace(/[&?/]?[\w-+%]+=[\w-+%]+/g, '');
+    productURL = encodeURIComponent(productURL);
+    console.log(productURL);
+    return `${backendDomain}${company}/${productURL}`;
+}
+
+/*function getBackendURL(url) {
+    const obj = new URL(url);
+    let host = obj.host
+    if (host.startsWith("www.")) host = host.substring(4);
+    let company = "unknown"
+    if (host.match(/amazon\.[a-z]{2}$/g)) {
+        company = "amazon";
+    }
+    //host = host.replace(/\./g, '/');
+    const path = encodeURIComponent(obj.pathname.replace(/[&?/]?[\w-+%]+=[\w-+%]+/g, ''));
+    return `${backendDomain}${company}/${host}${path}`;
+}*/
+
 /**
  * Takes the JSON reply from backend and converts it 
  * to a standardized internal format
  */
 function processJSONReply(reply) {
+    console.log('from processJSONReply');
     console.log(reply);
     return {
-        //rating: 5,
-        rating: null,
-        name: "Hello, world!",
+        rating: 4.2,
+        image: "https://m.media-amazon.com/images/I/71X+maQTN6L._SX679_.jpg",
+        //rating: null,
+        name: "ESR Tempered Glass [Paper-Feel Screen Protector Compatible With Ipad 10Th Generation (2022, 10.9 Inch), Put Pencil To Paper, Thin And Responsive, Easy Application Tray, Scratch Protection, 2 Pack",
         lastUpdate: new Date(),
         //description: "This is some sort of sample placeholder description for the Hello, world! product.\nIt isn't a legitimate product, and I don't know why I spent so much effort on this description.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThis is to simulate a long description."
-        description: "This is a sample short description.\nIt's like, really short"
+        //description: "This is a sample short description.\nIt's like, really short"
         //description: "This is a sample long description. It's really wide, but really short. In fact, it literally only has one line. How badly do you think this renders? Find out soon once I render this bad boy. Ohhhhhhh boy."
+        description: `Compatibility: only compatible with iPad 10th Generation (2022)
+Put Pencil to Paper: ultra-thin with a finely textured surface to ensure smooth, complete lines and just the right amount of resistance to transform your tablet into a digital canvas or notebook while minimizing nib abrasion
+Bubble Free: included application tray takes the guesswork out of installation to ensure quick and easy bubble-free application every time
+Scratch Protection: keep your screen protected from scuffs and scratches caused by keys or cables
+Industry-Leading Clarity: clearer than other similar screen protectors to ensure that you can still catch up on your favorite shows or admire your new masterpiece when you’ve finished creating
+Complete Customer Support: detailed setup videos and FAQs, comprehensive 12-month warranty, lifetime support, and personalized help`
     };
 }
 
@@ -58,9 +91,11 @@ function ProductDetails({productInfo}) {
     </div>
 }
 
-function ProductDescription({productInfo}) {
+function ProductDescription({productInfo}) {//'./TrustSubmarine Full Icon.png'
     return <div className='horizontalflow-small-flex'>
-        <img src="../TrustSubmarine Full Icon.png" alt="Image" className='image-small'/>
+        <div id='product-image-container'>
+            <img src={productInfo.image} alt="Image" className='image-small' id='product-image'/> 
+        </div>
         <p id='product-description'>{productInfo.description}</p>
     </div>
 }

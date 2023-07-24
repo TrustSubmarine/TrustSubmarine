@@ -74,7 +74,6 @@ code {
 .horizontalflow-small-flex {
   display: flex;
   flex-direction: row;
-  /*justify-content: flex-end;*/
   justify-content: center;
   padding: 20px 40px;
   align-items: center;
