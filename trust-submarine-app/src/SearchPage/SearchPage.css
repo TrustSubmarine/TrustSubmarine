@@ -153,6 +153,11 @@
     height: 30px;
 }
 
+#searchicon-loading {
+    width: 30px;
+    height: 30px;
+}
+
 #searchtype-left {
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;

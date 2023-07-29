@@ -1,6 +1,11 @@
+#about-container {
+    max-width: calc(max(100%, 800px));
+}
+
 #product-title {
-    font-size: 40px;
-    font-weight:300;
+    font-size: 30px;
+    font-weight: 300;
+    max-width: 80%;
 }
 
 #score {
@@ -8,7 +13,70 @@
     font-weight: 400;
 }
 
-#link {
-    font-size: 20px;
-    align-self: center;
+#product-image-container {
+    max-height: 300px;
+    height: 100%;
+    width: 40%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#product-image {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+}
+
+#product-description {
+    white-space: pre-wrap;
+    max-height: 300px;
+    font-size: 17px;
+    width: 40%;
+    overflow-y: auto;
+    /*scrollbar-width: thin;
+    scrollbar-color: #a3a3a3 #f5f5f5;*/
+}
+  
+/* Track */
+#product-description::-webkit-scrollbar {
+    width: 6px;
+    border-radius: 3px;
+    border-color: #fff;
+    border-width: 1px 0px;
+    border-style: solid;
+}
+
+/* Handle */
+#product-description::-webkit-scrollbar-thumb {
+    /*background-color: #a3a3a3;*/
+    border-radius: 3px;
+    border-color: #777;
+    border-width: 0px 1px;
+    border-style: solid;
+}
+
+/* Handle on hover */
+#product-description::-webkit-scrollbar-thumb:hover {
+    background-color: #777;
+}
+
+#last-updated {
+    font-size: 15px;
+    font-weight: 200;
+    color: #FFFFFF30;
+}
+
+#request-button {
+    width: 100%;
+    border-radius: 5px;
+    border-width: 0px;
+    height: 20px;
+}
+
+.scoredisplay-text {
+    font-size: 48px;
+    font-weight: 600;  
 }
