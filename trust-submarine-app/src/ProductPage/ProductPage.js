@@ -13,6 +13,7 @@ export async function RequestProduct({request, params}) {
     const backend = getBackendURL(productURL);
     try {
         let res = await axios.get(backend);
+        console.log(res);
         let json = res.data[0];
         processJSONReply(json);
         json["backend"] = backend;
