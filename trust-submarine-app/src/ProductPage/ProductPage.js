@@ -19,7 +19,7 @@ export async function RequestProduct({request, params}) {
         json["render"] = true;
         return json;
     } catch (error) {
-        console.log(error); //todo check if the error is product not found specifically
+        console.log(error);
         return {
             "rating": null,
             "backend": backend,
@@ -96,7 +96,7 @@ function ProductDetails({productInfo}) {
 function ProductDescription({productInfo}) {//'./TrustSubmarine Full Icon.png'
     return <div className='horizontalflow-small-flex'>
         <div id='product-image-container'>
-            <img src={productInfo.image} alt="Product Image" className='image-small' id='product-image'/> 
+            <img src={productInfo.image} alt="Product goes here" className='image-small' id='product-image'/> 
         </div>
         <p id='product-description'>{productInfo.description}</p>
     </div>
