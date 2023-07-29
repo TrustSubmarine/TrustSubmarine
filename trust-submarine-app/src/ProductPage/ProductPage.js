@@ -153,7 +153,7 @@ function RenderScoreSVGLarge({score}) {
 function RenderScoreSVG({score, strokeWidth, sideLength, color}) {
     const MAXSCORE = 5.0;
 
-    if (score===null || score === MAXSCORE) { //specifically handle the case of full circle
+    if (score===null || score == MAXSCORE) { //specifically handle the case of full circle
         const radius = (sideLength-strokeWidth)/2.0;
         const center = sideLength/2.0;
 
