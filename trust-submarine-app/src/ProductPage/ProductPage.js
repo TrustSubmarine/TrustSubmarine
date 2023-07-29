@@ -14,7 +14,8 @@ export async function RequestProduct({request, params}) {
     try {
         let res = await axios.get(backend);
         console.log(res);
-        let json = res.data[0];
+        //let json = res.data[0];
+        let json = JSON.parse(JSON.stringify(res.data[0])); //copy for debug purposes
         processJSONReply(json);
         json["backend"] = backend;
         json["render"] = true;
