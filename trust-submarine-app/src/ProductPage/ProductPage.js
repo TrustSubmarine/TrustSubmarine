@@ -62,15 +62,14 @@ function processJSONReply(reply) {
     keymap(reply, "score", "rating");
     keymap(reply, "product_name", "name");
     keymap(reply, "updated_at", "lastUpdate");
-    //jsonmap image
-
+    keymap(reply, "img", "image");
+    
     //processing
     jsonmap(reply, "description", (str) => str.replace(/^{"(.*)"}$/g, "$1"))
     jsonmap(reply, "lastUpdate", (str) => new Date(str));
     if (!reply["is_calc"]) {
         reply["rating"] = null;
     }
-    reply["image"] = "https://m.media-amazon.com/images/I/71X+maQTN6L._SX679_.jpg";
     console.log(reply);
     return reply;
 }
