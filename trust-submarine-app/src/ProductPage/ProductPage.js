@@ -90,7 +90,7 @@ function ProductDetails({productInfo}) {
         <p id='product-title'>{productInfo.name}</p>
         { productInfo.render? <ProductDescription productInfo={productInfo}/> : null}
         <ScoreDisplay productInfo={productInfo}/>
-        { productInfo.render? <UpdateRequester productInfo={productInfo}/> : <p>This could take a few minutes...</p>}
+        { productInfo.render? <UpdateRequester productInfo={productInfo}/> : <p>Internal server error, or perhaps a URL typo.</p>}
     </div>
 }
 
