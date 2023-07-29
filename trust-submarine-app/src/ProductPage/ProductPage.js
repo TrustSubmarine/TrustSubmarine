@@ -1,7 +1,7 @@
 import Header from "../Components/Header";
 import axios from 'axios';
 import { useLoaderData, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import './ProductPage.css';
 
@@ -76,7 +76,7 @@ function processJSONReply(reply) {
 }
 
 function ProductPage() {
-    const [productInfo, setProductInfo] = useState(useLoaderData());
+    const productInfo = useLoaderData();
 
     return <div className='verticalflow-justify-flex flexfill'>
         <Header/>
@@ -96,7 +96,7 @@ function ProductDetails({productInfo}) {
 function ProductDescription({productInfo}) {//'./TrustSubmarine Full Icon.png'
     return <div className='horizontalflow-small-flex'>
         <div id='product-image-container'>
-            <img src={productInfo.image} alt="Image" className='image-small' id='product-image'/> 
+            <img src={productInfo.image} alt="Product Image" className='image-small' id='product-image'/> 
         </div>
         <p id='product-description'>{productInfo.description}</p>
     </div>
@@ -145,9 +145,9 @@ function RenderScoreSVGLarge({score}) {
     return <RenderScoreSVG score={score} strokeWidth={35} sideLength={200} color={processScoreColor(score)}/>
 }
 
-function RenderScoreSVGSmall({score}) {
+/*function RenderScoreSVGSmall({score}) {
     return <RenderScoreSVG score={score} strokeWidth={20} sideLength={150}/>
-}
+}*/
 
 function RenderScoreSVG({score, strokeWidth, sideLength, color}) {
     const MAXSCORE = 5.0;
