@@ -43,11 +43,15 @@ function SearchForm() {
 function SearchBar({searchType}) {
     var [searchText, setSearchText] = useState("");
     const nav = useNavigate();
+    var [isLoading, setIsLoading] = useState(false);
 
     const redirectionHandler = (event) => {
         event.preventDefault();
         if (searchText === "") return;
+        console.log("button pressed");
         nav((searchType === SearchType.URL? "product?url=":"results?query=") + encodeURIComponent(searchText));
+        event.target.disabled = true;
+        setIsLoading(true);
     }
 
     return <form onSubmit={redirectionHandler}>
@@ -62,7 +66,10 @@ function SearchBar({searchType}) {
             </div>
             <button id="searchbutton" aria-label='search-icon' onClick={redirectionHandler}>
                 <div id="searchicon-container">
-                    <img src="./FlatIcons Magnifying Glass C2E3FF.png" id="searchicon-magglass" alt='Keyword Search Icon'/>
+                    {isLoading? 
+                        <img src="https://upload.wikimedia.org/wikipedia/commons/7/7a/Ajax_loader_metal_512.gif" id="searchicon-loading" alt="Loading Search"/>:
+                        <img src="./FlatIcons Magnifying Glass C2E3FF.png" id="searchicon-magglass" alt='Keyword Search Icon'/>
+                    }
                 </div>
             </button>
         </div>

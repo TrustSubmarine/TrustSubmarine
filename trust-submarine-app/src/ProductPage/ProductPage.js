@@ -1,6 +1,6 @@
 import Header from "../Components/Header";
 import axios from 'axios';
-import { useLoaderData, useSearchParams } from 'react-router-dom';
+import { useLoaderData, useNavigate } from 'react-router-dom';
 import { useEffect, useState } from "react";
 
 import './ProductPage.css';
@@ -8,43 +8,46 @@ import './ProductPage.css';
 const backendDomain = 'https://durable-pulsar-388017.as.r.appspot.com/';
 
 export async function RequestProduct({request, params}) {
+    const thisURL = new URL(request.url);
+    const productURL = thisURL.searchParams.get("url");
+    const backend = getBackendURL(productURL);
     try {
-        const thisURL = new URL(request.url);
-        const productURL = thisURL.searchParams.get("url");
-        console.log(getBackendURL(productURL));
-        //var res = await axios.get(getBackendURL(productURL));
-        //return processJSONReply(res.data);
-        return processJSONReply(null);
+        let res = await axios.get(backend);
+        let json = res.data[0];
+        processJSONReply(json);
+        json["backend"] = backend;
+        json["render"] = true;
+        return json;
     } catch (error) {
         console.log(error); //todo check if the error is product not found specifically
-        return null;
+        return {
+            "rating": null,
+            "backend": backend,
+            "name": "Invalid URL",
+            "render": false,
+          };
     }
 }
 
 function getBackendURL(url) {
     const obj = new URL(url);
     let company = "unknown"
-    if (obj.host.match(/amazon\.[a-z]{2}$/g)) {
+    if (obj.host.match(/amazon\.[a-z]{2,3}$/g)) {
         company = "amazon";
     }
     let productURL = `${obj.origin}${obj.pathname}`.replace(/[&?/]?[\w-+%]+=[\w-+%]+/g, '');
     productURL = encodeURIComponent(productURL);
-    console.log(productURL);
     return `${backendDomain}${company}/${productURL}`;
 }
 
-/*function getBackendURL(url) {
-    const obj = new URL(url);
-    let host = obj.host
-    if (host.startsWith("www.")) host = host.substring(4);
-    let company = "unknown"
-    if (host.match(/amazon\.[a-z]{2}$/g)) {
-        company = "amazon";
-    }
-    //host = host.replace(/\./g, '/');
-    const path = encodeURIComponent(obj.pathname.replace(/[&?/]?[\w-+%]+=[\w-+%]+/g, ''));
-    return `${backendDomain}${company}/${host}${path}`;
-}*/
+function keymap(json, key1, key2) {
+    json[key2] = json[key1];
+    delete json[key1];
+}
+
+function jsonmap(json, key, fn) {
+    json[key] = fn(json[key]);
+}
 
 /**
  * Takes the JSON reply from backend and converts it 
@@ -53,28 +56,27 @@ function getBackendURL(url) {
 function processJSONReply(reply) {
     console.log('from processJSONReply');
     console.log(reply);
-    return {
-        rating: 4.2,
-        image: "https://m.media-amazon.com/images/I/71X+maQTN6L._SX679_.jpg",
-        //rating: null,
-        name: "ESR Tempered Glass [Paper-Feel Screen Protector Compatible With Ipad 10Th Generation (2022, 10.9 Inch), Put Pencil To Paper, Thin And Responsive, Easy Application Tray, Scratch Protection, 2 Pack",
-        lastUpdate: new Date(),
-        //description: "This is some sort of sample placeholder description for the Hello, world! product.\nIt isn't a legitimate product, and I don't know why I spent so much effort on this description.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nThis is to simulate a long description."
-        //description: "This is a sample short description.\nIt's like, really short"
-        //description: "This is a sample long description. It's really wide, but really short. In fact, it literally only has one line. How badly do you think this renders? Find out soon once I render this bad boy. Ohhhhhhh boy."
-        description: `Compatibility: only compatible with iPad 10th Generation (2022)
-Put Pencil to Paper: ultra-thin with a finely textured surface to ensure smooth, complete lines and just the right amount of resistance to transform your tablet into a digital canvas or notebook while minimizing nib abrasion
-Bubble Free: included application tray takes the guesswork out of installation to ensure quick and easy bubble-free application every time
-Scratch Protection: keep your screen protected from scuffs and scratches caused by keys or cables
-Industry-Leading Clarity: clearer than other similar screen protectors to ensure that you can still catch up on your favorite shows or admire your new masterpiece when you’ve finished creating
-Complete Customer Support: detailed setup videos and FAQs, comprehensive 12-month warranty, lifetime support, and personalized help`
-    };
+
+    //jsonmaps
+    keymap(reply, "product_desc", "description");
+    keymap(reply, "score", "rating");
+    keymap(reply, "product_name", "name");
+    keymap(reply, "updated_at", "lastUpdate");
+    //jsonmap image
+
+    //processing
+    jsonmap(reply, "description", (str) => str.replace(/^{"(.*)"}$/g, "$1"))
+    jsonmap(reply, "lastUpdate", (str) => new Date(str));
+    if (!reply["is_calc"]) {
+        reply["rating"] = null;
+    }
+    reply["image"] = "https://m.media-amazon.com/images/I/71X+maQTN6L._SX679_.jpg";
+    console.log(reply);
+    return reply;
 }
 
 function ProductPage() {
-    const productInfo = useLoaderData();
-    // const [ search ] = useSearchParams();
-    // const productURL = search.get('url');
+    const [productInfo, setProductInfo] = useState(useLoaderData());
 
     return <div className='verticalflow-justify-flex flexfill'>
         <Header/>
@@ -85,9 +87,9 @@ function ProductPage() {
 function ProductDetails({productInfo}) {
     return <div id='about-container' className='verticalflow-small-flex align-center auto-margin'>
         <p id='product-title'>{productInfo.name}</p>
-        <ProductDescription productInfo={productInfo}/>
+        { productInfo.render? <ProductDescription productInfo={productInfo}/> : null}
         <ScoreDisplay productInfo={productInfo}/>
-        <UpdateRequester productInfo={productInfo}/>
+        { productInfo.render? <UpdateRequester productInfo={productInfo}/> : <p>This could take a few minutes...</p>}
     </div>
 }
 
@@ -187,18 +189,27 @@ function UpdateRequester({productInfo}) {
     let stringDate = `${String(updateDate.getDate()).padStart(2, '0')}/${String(updateDate.getMonth() + 1).padStart(2, '0')}/${updateDate.getFullYear()}`;
     return <div>
         <p id='last-updated'>Last Updated: {stringDate}</p>
-        <UpdateButton/>
+        <UpdateButton productInfo={productInfo} />
     </div>
 }
 
-function UpdateButton() {
+function UpdateButton({productInfo}) {
     const [isPushed, setIsPushed] = useState(false);
-    const handleClick = (event) => {
+    const [text, setText] = useState("Request Score Recalculation");
+    const nav = useNavigate();
+    const handleClick = async (event) => {
         event.preventDefault();
         setIsPushed(true);
-        console.log("This is supposed to eventually send a HTTP request to the backend."); //todo replace with API request
+        setText("Please wait a few minutes");
+        console.log("PUT req sent");
+        try {
+            console.log(await axios.put(productInfo["backend"]));
+            nav(0);
+        } catch (error) {
+            console.log(error);
+            setText("Unexpected Error Occurred");
+        }
     }
-    let text = isPushed? "Update Requested Recently":"Request Update";
     return <button id='request-button' onClick={handleClick} disabled={isPushed}>{text}</button>
 }
 
