@@ -48,7 +48,11 @@ function SearchBar({searchType}) {
     const redirectionHandler = (event) => {
         event.preventDefault();
         if (searchText === "") return;
-        console.log("button pressed");
+        try {
+            new URL(searchText);
+        } catch (ignored) {
+            return;
+        }
         nav((searchType === SearchType.URL? "product?url=":"results?query=") + encodeURIComponent(searchText));
         event.target.disabled = true;
         setIsLoading(true);

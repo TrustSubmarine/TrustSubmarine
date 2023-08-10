@@ -1,7 +1,7 @@
 import Header from "../Components/Header";
 import axios from 'axios';
 import { useLoaderData, useNavigate } from 'react-router-dom';
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import './ProductPage.css';
 
@@ -13,13 +13,15 @@ export async function RequestProduct({request, params}) {
     const backend = getBackendURL(productURL);
     try {
         let res = await axios.get(backend);
-        let json = res.data[0];
+        console.log(res);
+        //let json = res.data[0];
+        let json = JSON.parse(JSON.stringify(res.data[0])); //copy for debug purposes
         processJSONReply(json);
         json["backend"] = backend;
         json["render"] = true;
         return json;
     } catch (error) {
-        console.log(error); //todo check if the error is product not found specifically
+        console.log(error);
         return {
             "rating": null,
             "backend": backend,
@@ -62,21 +64,20 @@ function processJSONReply(reply) {
     keymap(reply, "score", "rating");
     keymap(reply, "product_name", "name");
     keymap(reply, "updated_at", "lastUpdate");
-    //jsonmap image
-
+    keymap(reply, "img", "image");
+    
     //processing
     jsonmap(reply, "description", (str) => str.replace(/^{"(.*)"}$/g, "$1"))
     jsonmap(reply, "lastUpdate", (str) => new Date(str));
     if (!reply["is_calc"]) {
         reply["rating"] = null;
     }
-    reply["image"] = "https://m.media-amazon.com/images/I/71X+maQTN6L._SX679_.jpg";
     console.log(reply);
     return reply;
 }
 
 function ProductPage() {
-    const [productInfo, setProductInfo] = useState(useLoaderData());
+    const productInfo = useLoaderData();
 
     return <div className='verticalflow-justify-flex flexfill'>
         <Header/>
@@ -89,14 +90,14 @@ function ProductDetails({productInfo}) {
         <p id='product-title'>{productInfo.name}</p>
         { productInfo.render? <ProductDescription productInfo={productInfo}/> : null}
         <ScoreDisplay productInfo={productInfo}/>
-        { productInfo.render? <UpdateRequester productInfo={productInfo}/> : <p>This could take a few minutes...</p>}
+        { productInfo.render? <UpdateRequester productInfo={productInfo}/> : <p>Internal server error, or perhaps a URL typo.</p>}
     </div>
 }
 
 function ProductDescription({productInfo}) {//'./TrustSubmarine Full Icon.png'
     return <div className='horizontalflow-small-flex'>
         <div id='product-image-container'>
-            <img src={productInfo.image} alt="Image" className='image-small' id='product-image'/> 
+            <img src={productInfo.image} alt="Product goes here" className='image-small' id='product-image'/> 
         </div>
         <p id='product-description'>{productInfo.description}</p>
     </div>
@@ -145,14 +146,14 @@ function RenderScoreSVGLarge({score}) {
     return <RenderScoreSVG score={score} strokeWidth={35} sideLength={200} color={processScoreColor(score)}/>
 }
 
-function RenderScoreSVGSmall({score}) {
+/*function RenderScoreSVGSmall({score}) {
     return <RenderScoreSVG score={score} strokeWidth={20} sideLength={150}/>
-}
+}*/
 
 function RenderScoreSVG({score, strokeWidth, sideLength, color}) {
     const MAXSCORE = 5.0;
 
-    if (score===null || score === MAXSCORE) { //specifically handle the case of full circle
+    if (score===null || score == MAXSCORE) { //specifically handle the case of full circle
         const radius = (sideLength-strokeWidth)/2.0;
         const center = sideLength/2.0;
 
